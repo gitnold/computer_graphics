@@ -64,7 +64,7 @@ int main (int argc, char *argv[]) {
 
 
     // Generates Shader object using shaders default.vert and default.frag
-    graphics::Shader shaderProgram("./shaders/default.vert", "./shaders/default.frag");
+    graphics::Shader shaderProgram("./shaders/default.vert", "./shaders/final.frag");
 
 
 
@@ -88,13 +88,35 @@ int main (int argc, char *argv[]) {
 
     // Gets ID of uniform called "scale"
     GLuint uniID = glGetUniformLocation(shaderProgram.ID, "scale");
+    
+    //colorblindMode
+    GLuint colorblindID = glGetUniformLocation(shaderProgram.ID, "colorblindMode");
 
     // Texture
-    graphics::Texture popCat("../assets/wall_texture.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+    graphics::Texture popCat("../assets/Gemini_Generated_Image_bkzpzobkzpzobkzp.png", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
     popCat.textUnit(shaderProgram, "tex0", 0);
+
+    int currentMode = 0;
+    float timer = 0.0f;
+    float lastTime = glfwGetTime();
 
 
     while (!glfwWindowShouldClose(window)) {
+        // ADD: Calculate delta time and update timer
+        float currentTime = glfwGetTime();
+        float deltaTime = currentTime - lastTime;
+        lastTime = currentTime;
+        
+        timer += deltaTime;
+        
+        // ADD: Switch shader mode every 5 seconds
+        if (timer >= 5.0f) {
+            timer = 0.0f;
+            currentMode = (currentMode + 1) % 4;
+            std::cout << "Switched to mode: " << currentMode << std::endl; // Optional debug
+        }
+
+
         // Specify the color of the background
         glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
         // Clean the back buffer and assign the new color to it
@@ -103,6 +125,8 @@ int main (int argc, char *argv[]) {
         shaderProgram.activate();
         // Assigns a value to the uniform; NOTE: Must always be done after activating the Shader Program
         glUniform1f(uniID, 0.5f);
+
+        glUniform1i(colorblindID, currentMode);
         // Binds texture so that is appears in rendering
         popCat.Bind();
         // Bind the VAO so OpenGL knows to use it
