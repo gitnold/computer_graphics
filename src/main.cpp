@@ -115,16 +115,16 @@ int main (int argc, char *argv[]) {
             currentMode = (currentMode + 1) % 4;
             switch (currentMode) {
                 case 0:
-                    std::cout << "Switched to mode: " << currentMode << "no colour blindness" <<std::endl;
+                    std::cout << "Switched to mode: " << currentMode << ": no colour blindness[full colour image]" <<std::endl;
                     break;
                 case 1:
-                    std::cout << "Switched to mode: " << currentMode << "red-blind" << std::endl;
+                    std::cout << "Switched to mode: " << currentMode << ": red-blind" << std::endl;
                     break;
                 case 2:
-                    std::cout << "Switched to mode: " << currentMode <<"green-blind"<< std::endl;
+                    std::cout << "Switched to mode: " << currentMode <<": green-blind"<< std::endl;
                     break;
                 case 3:
-                    std::cout << "Switched to mode: " << currentMode<< "blue-blind"<< std::endl; // Optional debug
+                    std::cout << "Switched to mode: " << currentMode<< ": blue-blind"<< std::endl; // Optional debug
                     break;
                 default:
                     std::cout << "Switched to mode: " << currentMode << std::endl; // Optional debug
